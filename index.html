@@ -4,53 +4,40 @@
   <meta charset="UTF-8">
   <title>옹달샘 수거함</title>
   <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      padding: 40px;
-    }
+    body { font-family: sans-serif; text-align: center; padding: 40px; }
     input, button {
       padding: 10px;
-      font-size: 1.1em;
-      border-radius: 8px;
+      font-size: 16px;
+      border-radius: 6px;
     }
-    button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 1.2em;
-    }
+    #result { margin-top: 20px; font-size: 18px; }
   </style>
 </head>
 <body>
   <h1>옹달샘 수거함</h1>
-  <p>학번을 입력하면 쪽지 여부를 확인할 수 있어요!</p>
+  <p>학번을 입력해 쪽지를 확인해보세요!</p>
   <input type="text" id="studentId" placeholder="학번 입력">
-  <button onclick="checkMessage()">확인하기</button>
+  <button onclick="checkMessage()">확인</button>
   <div id="result"></div>
 
   <script>
+    const URL = "https://script.google.com/macros/s/AKfycbxY0WP8h0BHbDtTFujiRK9NMWwm_m82WCIQ2qSuFac0k7fyfB5bsFyz-ugVonPSXZedfw/exec";
+
     async function checkMessage() {
-      const input = document.getElementById("studentId").value.trim();
+      const id = document.getElementById("studentId").value.trim();
       const result = document.getElementById("result");
       result.innerText = "확인 중...";
 
       try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbxUviJ_diBgvM8GPoMmMZKL72AIy76_elSzkYGFOBgGks2nj6dknowgmCCVhFdoWJScGA/exec");
+        const res = await fetch(URL);
         const data = await res.json();
-        const record = data.find(row => row.studentId === input);
+        const match = data.find(row => row.studentId === id);
 
-        if (record) {
-          result.innerText = `${record.name}님, ${record.message}`;
-        } else {
-          result.innerText = "쪽지가 없습니다";
-        }
-      } catch (e) {
-        result.innerText = "데이터를 불러오는 데 문제가 생겼어요.";
+        result.innerText = match
+          ? `${match.name}님, ${match.message}`
+          : "쪽지가 없습니다";
+      } catch (err) {
+        result.innerText = "데이터를 불러오는 데 문제가 있습니다.";
       }
     }
   </script>
