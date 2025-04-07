@@ -40,7 +40,7 @@
       result.innerText = "확인 중...";
 
       try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbwm2ljDOVUNjK2DI3AbCkIdFBzkf6hle8eDDUGRZ3nK1Ef7ETyQE2wIXKWqtMBrAFCxrQ/exec");
+        const res = await fetch("https://script.google.com/macros/s/AKfycbxUviJ_diBgvM8GPoMmMZKL72AIy76_elSzkYGFOBgGks2nj6dknowgmCCVhFdoWJScGA/exec");
         const data = await res.json();
         const record = data.find(row => row.studentId === input);
 
